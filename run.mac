@@ -1,0 +1,32 @@
+# Macro file for TEI
+#
+# Verbosity
+/control/verbose  0
+/run/verbose      0
+/event/verbose    0
+/tracking/verbose 0
+/vis/verbose      0
+/process/verbose  0 
+/particle/verbose 0
+#
+#/control/verbose  2
+#/run/verbose      2
+#/event/verbose    2
+#/tracking/verbose 2
+#/vis/verbose      2
+#/process/verbose  2 
+#/particle/verbose 2
+#
+#/control/verbose  2
+#/run/verbose      2
+#/event/verbose    6
+#/tracking/verbose 6
+#/vis/verbose      6
+#/process/verbose  6 
+#/particle/verbose 6
+#
+# Initialize kernel
+/run/initialize
+/run/eventModulo 0 1
+/random/setSeeds 2 2
+#/run/beamOn 10000

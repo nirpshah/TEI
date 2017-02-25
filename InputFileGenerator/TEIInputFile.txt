@@ -1,0 +1,123 @@
+Input file for TEI. Description is below input details.
+
+THE INPUT FILE READER DOES NOT PROTECT WELL AGAINST INCOMPLETE OR INCORRECT INPUTS!!!
+
+Good Luck!
+
+Input Start:
+
+macroFileName             run.mac
+outputFileName            auto
+headerFileName            auto
+progressBar               true
+
+numberOfThreads           1
+numberOfParticles         1
+numberOfEvents            1000000
+
+detectorMaterial          stilbene
+detectorHeight            5.08 
+detectorDiameter          5.08
+detectorPosition          0 0 0
+detectorTrackingEnergyCut 10
+
+sourceName                custom  
+sourceShape               square  
+sourceProbability         1        
+sourcePosition            299 0 0 
+sourceRadius1             35          
+sourceRadius2             35      
+sourceConeAperture        0       
+sourceDirection           -1 0 0  
+sourceParticle            gamma   
+sourceEnergy              662  
+sourceEnergyProbability   1       
+wattSpectrum              0 0     
+gaussianSpectrum          0 0     
+maxwellianSpectrum        0 0     
+
+maskMaterial              tungsten  tungsten  tungsten  tungsten  tungsten  tungsten  tungsten  tungsten  tungsten
+maskThickness             1         1         1         1         1         1         1         1         1
+maskWidth                 5.9	      8.9	      2.9	      14.9	    8.9	      2.9	      2.9	      11.9	    2.9
+maskCenterAngle           0	        36	      66.86	    108	      159.43  	200.57  	252	      288	      334.28      
+maskTrackingEnergyCut     10        10        10        10        10        10        10        10        10     
+maskHeight                60        
+maskRadius                16.7 
+maskCenterHeight          0
+maskRotationAngle         0
+
+worldMaterial             vacuum
+worldSize                 600 600 600
+
+physicsList               custom
+particle                  gamma electron positron proton neutron genericIon
+gammaProcess              photoElectricEffect comptonScattering pairProduction inelasticScattering
+electronProcess           multipleScattering ionisation bremsstrahlung
+positronProcess           multipleScattering ionisation bremsstrahlung annihilation 
+protonProcess             multipleScattering ionisation elasticScattering inelasticScattering
+neutronProcess            elasticScattering inelasticScattering capture fission
+genericIonProcess         multipleScattering ionisation 
+defaultProductionRangeCut 0.05
+gammaProductionRangeCut   0.05
+neutronProductionRangeCut 1.04
+
+End
+
+Input Descriptions
+No caps except for Physics list. Default units: cm, keV, deg. You must use the default units. If you want to change the default units, you can do so in the TEIInputFileReader::ReadInputFile(). But it's a long process.
+Material options: "air", "vacuum", "stilbene", "tungsten"
+
+macroFileName       Provide either the full file name or "ui". "ui" runs the interactive method. Example: "run.mac"
+outputFileName      Provide either the full file name or "auto". "auto" will use a unique output file based on time.
+headerFileName      Provide either the full file name, "auto". "auto" will use a unique header file based on time. 
+progressBar         Provide either "true" or "false". Basically, a progress bar will show up at the bottom while the simulations is running.
+
+numberOfThreads     Provide an integer. Example: "15".
+numberOfParticles   Provide an integer. Example: "1".
+numberOfEvents      Provide an integer. Example: "100000".
+
+detectorMaterial          Provide the detector you want to use. Options include "stilbene", "CLYC", "CZT". You need to make sure that the details of the detector are accurate! Like how much Ce3+
+detectorHeight            Provide the detector height in [cm]. Do not include the unit. 2 inch = 5.08 cm. 3 inch = 7.62 cm.
+detectorDiameter          Provide the detector height in [cm]. 2 inch = 5.08 cm. 3 inch = 7.62 cm.
+detectorPosition          Provide the detector position as three values x,y,z. Example: "0 0 0".
+detectorTrackingEnergyCut Provide a double for the energy cut off to stop tracking particles in the detector. Units are [keV].
+
+sourceName                Provide the name of the source. Options include "cs-137", "co-60", "ba-133", "cd-109", "co-57", "mn-54", "na-22", "dd", "dt", "cf-252-n", "u-238-n", "pu-240-n", "pu-242-n", "cm-242-n", "cm-244-n", "am-li", "cf-252-g", "u-238-g", "pu-240-g", "pu-242-g", "cm-242-g", "cm-244-g", "custom". The predefined sources will use sourceProbability, sourcePosition, sourceConeAperture, sourceDirection. You must still define all of the available options, but they wil be ignored. For "custom", all of the options will be used.
+sourceShape               Provide the shape of the source. Options include "circle" and "square". "circle" only needs a single radius: "sourceRadius1" while square is width: "sourceRadius1" and height: "sourceRadius2".
+sourceProbability         Provide the relative strength of each source. You do not need to normalize. Example: "1 1" for two equally strong sources.
+sourcePosition            Provide the source position as three values x,y,z. Example: "0 0 99". 
+sourceRadius1             Provide the radius of the source. If the source is a point, use 0. Example "1".
+sourceRadius2             Provide the second radius arguement for the shape of the source.             
+sourceConeAperture        Provide the aperture of the source. This is double the angle from normal in [deg]. Do not include the unit. Example: "20".
+sourceDirection           Provide the normal direction of the source as three values x,y,z. Example: "0 0 -1". Normalization is not necessary. If you want the direction to be from the source position to the detector, use "0 0 0".
+sourceParticle            Provide the particle type. Options include "gamma" and "neutron". Only applied if the "sourceName" is "custom".
+sourceEnergy              Provide the particle energy in [keV]. Do not include the unit. Only applied if the "sourceName" is "custom". Example: "662". To enable a spectrum, use a constant from TEIConstants. 
+sourceEnergyProbability   Provide the probability of a certain emission line. Example, consider a co-60 source. sourceEnergy would have "1173 1332" while sourceEnergyProbability would have ~"1 1"
+wattSpectrum              Provide the necessary parameters. Refer to http://web.ornl.gov/~webworks/cppr/y2001/rpt/109646_.pdf. Example:  0.78 5.194 for u-238
+gaussianSpectrum          Provide the mean and the standard deviation in [keV].
+maxwellianSpectrum        Provide the neutron temperature, refer to http://web.ornl.gov/~webworks/cppr/y2001/rpt/109646_.pdf, and whether or not the cf-252 correction. 0 is false, 1 is true.
+
+maskMaterial          Provide the mask material. Options include "tungsten", "hdpe", "lead".
+maskThickness         Provide the mask thickness in [cm]. Example "2".
+maskWidth             Provide the mask width in [cm]. Example "18".
+maskCenterAngle       Provide the mask center angle so that we can place it in a circle.
+maskTrackingEnergyCut Provide a double for the energy cut off to stop tracking particles in this mask element. Units are [keV].
+maskHeight            Provide the mask height in [cm]. Example: "60".
+maskRadius            Provide the distance from the center of the detector to the center of a mask element in [cm]. Example: "cm".
+maskCenterHeight      Provide the center height of a mask element in [cm]. Example "cm".
+maskRotationAnlge     Provide the angle of rotation for the entire mask
+
+worldMaterial       Provide the world material. Options include "air" or "vacuum".
+worldSize           Provie the length, width, and height of the world in [cm]. Example: "200 200 200".
+
+physicsList       Choose a physics list. "custom" will allow control over the physics. Other options include "QBBC", "QGSP_BERT_HP", "QGSP_BIC_HP", "QGSP_INCLXX", "Shielding" 
+particle          Choose the particles you wish to include in the simulations. Options include "gamma", "electron", "positron", "proton", "neutron", "genericIon".
+gammaProcess      Choose any of the following: photoElectricEffect comptonScattering pairProduction inelasticScattering
+electronProcess   Choose any of the following: multipleScattering ionisation bremsstrahlung 
+positronProcess   Choose any of the following: multipleScattering ionisation bremsstrahlung annihilation 
+protonProcess     Choose any of the following: multipleScattering ionisation elasticScattering inelasticScattering
+neutronProcess    Choose any of the following: elasticScattering inelasticScattering capture fission
+genericIonProcess Choose any of the following: multipleScattering ionisation  
+defaultCutValue   Set the default cut value for things like electrons, protons, genericIons, and positrons. [cm]
+gammaCutValue     Set the default cut value for gammas [cm]
+neutronCutValue   Set the default cut value for neutrons [cm]. Small differences here can make a big difference in energy. Don't be so quick to round. 1 cm = .1 kev while 1.04 = 10 kev
